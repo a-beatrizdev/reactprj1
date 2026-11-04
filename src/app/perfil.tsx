@@ -49,7 +49,7 @@ export default function ProfileScreen() {
         </View>
 
         <View style={styles.stat}>
-          <Text style={styles.statIcon}>🏆</Text>
+          <Text style={styles.statIcon}>💕</Text>
           <Text style={styles.statNumber}>0</Text>
           <Text style={styles.statLabel}>
             Desafios feitos

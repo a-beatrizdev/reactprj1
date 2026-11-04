@@ -1,180 +1,303 @@
-import { Image } from 'expo-image';
-import { SymbolView } from 'expo-symbols';
-import { Platform, Pressable, ScrollView, StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useState } from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  TextInput,
+} from 'react-native';
 
-import { ExternalLink } from '@/components/external-link';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Collapsible } from '@/components/ui/collapsible';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
+const lessons = [
+  {
+    icon: '♡',
+    title: 'O que é UX Design?',
+    description: 'Entenda como criar experiências simples e úteis.',
+    time: '5 min',
+    color: '#EBD9FF',
+  },
+  {
+    icon: '✿',
+    title: 'Fundamentos de UI',
+    description: 'Aprenda sobre cores, tipografia e organização.',
+    time: '8 min',
+    color: '#FFDCEB',
+  },
+  {
+    icon: '⚙',
+    title: 'Pesquisa e prototipação',
+    description: 'Descubra como pesquisar e validar ideias.',
+    time: '6 min',
+    color: '#FFE1D9',
+  },
+  {
+    icon: '⌘',
+    title: 'Ferramentas para designers',
+    description: 'Conheça Figma, Miro e outros recursos.',
+    time: '4 min',
+    color: '#FFF0D8',
+  },
+];
 
-export default function TabTwoScreen() {
-  const safeAreaInsets = useSafeAreaInsets();
-  const insets = {
-    ...safeAreaInsets,
-    bottom: safeAreaInsets.bottom + BottomTabInset + Spacing.three,
-  };
-  const theme = useTheme();
+export default function ExploreScreen() {
+  const [search, setSearch] = useState('');
 
-  const contentPlatformStyle = Platform.select({
-    android: {
-      paddingTop: insets.top,
-      paddingLeft: insets.left,
-      paddingRight: insets.right,
-      paddingBottom: insets.bottom,
-    },
-    web: {
-      paddingTop: Spacing.six,
-      paddingBottom: Spacing.four,
-    },
-  });
+  const filteredLessons = lessons.filter((lesson) =>
+    lesson.title.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <ScrollView
-      style={[styles.scrollView, { backgroundColor: theme.background }]}
-      contentInset={insets}
-      contentContainerStyle={[styles.contentContainer, contentPlatformStyle]}>
-      <ThemedView style={styles.container}>
-        <ThemedView style={styles.titleContainer}>
-          <ThemedText type="subtitle">Explore</ThemedText>
-          <ThemedText style={styles.centerText} themeColor="textSecondary">
-            This starter app includes example{'\n'}code to help you get started.
-          </ThemedText>
+      style={styles.screen}
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
+      <Text style={styles.kicker}>SUA JORNADA CRIATIVA</Text>
 
-          <ExternalLink href="https://docs.expo.dev" asChild>
-            <Pressable style={({ pressed }) => pressed && styles.pressed}>
-              <ThemedView type="backgroundElement" style={styles.linkButton}>
-                <ThemedText type="link">Expo documentation</ThemedText>
-                <SymbolView
-                  tintColor={theme.text}
-                  name={{ ios: 'arrow.up.right.square', android: 'link', web: 'link' }}
-                  size={12}
-                />
-              </ThemedView>
-            </Pressable>
-          </ExternalLink>
-        </ThemedView>
+      <Text style={styles.title}>Aprender ♡</Text>
 
-        <ThemedView style={styles.sectionsWrapper}>
-          <Collapsible title="File-based routing">
-            <ThemedText type="small">
-              This app has two screens: <ThemedText type="code">src/app/index.tsx</ThemedText> and{' '}
-              <ThemedText type="code">src/app/explore.tsx</ThemedText>
-            </ThemedText>
-            <ThemedText type="small">
-              The layout file in <ThemedText type="code">src/app/_layout.tsx</ThemedText> sets up
-              the tab navigator.
-            </ThemedText>
-            <ExternalLink href="https://docs.expo.dev/router/introduction">
-              <ThemedText type="linkPrimary">Learn more</ThemedText>
-            </ExternalLink>
-          </Collapsible>
+      <Text style={styles.subtitle}>
+        Conhecimento também pode ser divertido!
+      </Text>
 
-          <Collapsible title="Android, iOS, and web support">
-            <ThemedView type="backgroundElement" style={styles.collapsibleContent}>
-              <ThemedText type="small">
-                You can open this project on Android, iOS, and the web. To open the web version,
-                press <ThemedText type="smallBold">w</ThemedText> in the terminal running this
-                project.
-              </ThemedText>
-              <Image
-                source={require('@/assets/images/tutorial-web.png')}
-                style={styles.imageTutorial}
-              />
-            </ThemedView>
-          </Collapsible>
+      <TextInput
+        style={styles.search}
+        placeholder="⌕  Buscar conteúdos..."
+        placeholderTextColor="#AD91A2"
+        value={search}
+        onChangeText={setSearch}
+      />
 
-          <Collapsible title="Images">
-            <ThemedText type="small">
-              For static images, you can use the <ThemedText type="code">@2x</ThemedText> and{' '}
-              <ThemedText type="code">@3x</ThemedText> suffixes to provide files for different
-              screen densities.
-            </ThemedText>
-            <Image source={require('@/assets/images/react-logo.png')} style={styles.imageReact} />
-            <ExternalLink href="https://reactnative.dev/docs/images">
-              <ThemedText type="linkPrimary">Learn more</ThemedText>
-            </ExternalLink>
-          </Collapsible>
+      <View style={styles.progress}>
+        <View style={styles.progressTop}>
+          <Text style={styles.progressIcon}>👑</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.progressTitle}>Sua jornada</Text>
+            <Text style={styles.progressDescription}>
+              Continue aprendendo para desbloquear novas conquistas!
+            </Text>
+          </View>
+          <Text style={styles.progressStar}>⭐</Text>
+        </View>
 
-          <Collapsible title="Light and dark mode components">
-            <ThemedText type="small">
-              This template has light and dark mode support. The{' '}
-              <ThemedText type="code">useColorScheme()</ThemedText> hook lets you inspect what the
-              user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-            </ThemedText>
-            <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-              <ThemedText type="linkPrimary">Learn more</ThemedText>
-            </ExternalLink>
-          </Collapsible>
+        <View style={styles.progressRow}>
+          <View style={styles.progressTrack}>
+            <View style={styles.progressFill} />
+          </View>
+          <Text style={styles.progressNumber}>0 de 4</Text>
+        </View>
+      </View>
 
-          <Collapsible title="Animations">
-            <ThemedText type="small">
-              This template includes an example of an animated component. The{' '}
-              <ThemedText type="code">src/components/ui/collapsible.tsx</ThemedText> component uses
-              the powerful <ThemedText type="code">react-native-reanimated</ThemedText> library to
-              animate opening this hint.
-            </ThemedText>
-          </Collapsible>
-        </ThemedView>
-        {Platform.OS === 'web' && <WebBadge />}
-      </ThemedView>
+      <Text style={styles.sectionTitle}>
+        ✨ Todos os conteúdos
+      </Text>
+
+      {filteredLessons.map((lesson) => (
+        <View style={styles.lesson} key={lesson.title}>
+          <View
+            style={[
+              styles.lessonIcon,
+              { backgroundColor: lesson.color },
+            ]}
+          >
+            <Text style={styles.lessonIconText}>
+              {lesson.icon}
+            </Text>
+          </View>
+
+          <View style={styles.lessonContent}>
+            <Text style={styles.lessonTitle}>
+              {lesson.title}
+            </Text>
+
+            <Text style={styles.lessonDescription}>
+              {lesson.description}
+            </Text>
+
+            <Text style={styles.lessonTime}>
+              ◷ {lesson.time} de leitura
+            </Text>
+          </View>
+
+          <Text style={styles.arrow}>›</Text>
+        </View>
+      ))}
+
+      {filteredLessons.length === 0 && (
+        <View style={styles.empty}>
+          <Text style={styles.emptyText}>
+            Nenhum conteúdo encontrado ♡
+          </Text>
+        </View>
+      )}
+
+      <Text style={styles.footer}>
+        Cada aprendizado é uma nova conquista! 🎀
+      </Text>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
+  screen: {
     flex: 1,
-  },
-  contentContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    backgroundColor: '#FFF7FA',
   },
   container: {
-    maxWidth: MaxContentWidth,
-    flexGrow: 1,
-  },
-  titleContainer: {
-    gap: Spacing.three,
-    alignItems: 'center',
-    paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.six,
-  },
-  centerText: {
-    textAlign: 'center',
-  },
-  pressed: {
-    opacity: 0.7,
-  },
-  linkButton: {
-    flexDirection: 'row',
-    paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.two,
-    borderRadius: Spacing.five,
-    justifyContent: 'center',
-    gap: Spacing.one,
-    alignItems: 'center',
-  },
-  sectionsWrapper: {
-    gap: Spacing.five,
-    paddingHorizontal: Spacing.four,
-    paddingTop: Spacing.three,
-  },
-  collapsibleContent: {
-    alignItems: 'center',
-  },
-  imageTutorial: {
     width: '100%',
-    aspectRatio: 296 / 171,
-    borderRadius: Spacing.three,
-    marginTop: Spacing.two,
-  },
-  imageReact: {
-    width: 100,
-    height: 100,
+    maxWidth: 650,
     alignSelf: 'center',
+    padding: 20,
+    paddingBottom: 35,
+  },
+  kicker: {
+    color: '#C85D91',
+    fontSize: 9,
+    fontWeight: '900',
+    letterSpacing: 1,
+    marginTop: 15,
+  },
+  title: {
+    color: '#532C46',
+    fontSize: 26,
+    fontWeight: '900',
+    marginTop: 7,
+  },
+  subtitle: {
+    color: '#94758A',
+    fontSize: 11,
+    marginTop: 5,
+    marginBottom: 18,
+  },
+  search: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 25,
+    paddingHorizontal: 17,
+    height: 46,
+    borderWidth: 1,
+    borderColor: '#F5DDE9',
+    color: '#532C46',
+    fontSize: 12,
+    marginBottom: 18,
+  },
+  progress: {
+    backgroundColor: '#F8C9DF',
+    borderRadius: 21,
+    padding: 16,
+    marginBottom: 24,
+  },
+  progressTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  progressIcon: {
+    fontSize: 27,
+  },
+  progressTitle: {
+    color: '#532C46',
+    fontSize: 15,
+    fontWeight: '900',
+  },
+  progressDescription: {
+    color: '#81566F',
+    fontSize: 10,
+    lineHeight: 15,
+    marginTop: 3,
+  },
+  progressStar: {
+    fontSize: 23,
+  },
+  progressRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginTop: 16,
+  },
+  progressTrack: {
+    height: 8,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    flex: 1,
+    overflow: 'hidden',
+  },
+  progressFill: {
+    width: '0%',
+    height: 8,
+    backgroundColor: '#D95194',
+  },
+  progressNumber: {
+    color: '#81566F',
+    fontSize: 9,
+    fontWeight: '800',
+  },
+  sectionTitle: {
+    color: '#532C46',
+    fontSize: 16,
+    fontWeight: '900',
+    marginBottom: 13,
+  },
+  lesson: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 18,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 11,
+    borderWidth: 1,
+    borderColor: '#F5E6ED',
+  },
+  lessonIcon: {
+    width: 54,
+    height: 54,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  lessonIconText: {
+    fontSize: 27,
+    color: '#8C416A',
+  },
+  lessonContent: {
+    flex: 1,
+  },
+  lessonTitle: {
+    color: '#532C46',
+    fontSize: 12,
+    fontWeight: '900',
+  },
+  lessonDescription: {
+    color: '#94758A',
+    fontSize: 9,
+    lineHeight: 14,
+    marginTop: 4,
+  },
+  lessonTime: {
+    color: '#C85D91',
+    fontSize: 9,
+    fontWeight: '800',
+    marginTop: 6,
+  },
+  arrow: {
+    color: '#C85D91',
+    fontSize: 27,
+    paddingHorizontal: 5,
+  },
+  empty: {
+    backgroundColor: '#FFFFFF',
+    padding: 20,
+    borderRadius: 15,
+  },
+  emptyText: {
+    color: '#94758A',
+    textAlign: 'center',
+    fontSize: 12,
+  },
+  footer: {
+    color: '#94758A',
+    fontSize: 10,
+    textAlign: 'center',
+    marginTop: 20,
   },
 });
